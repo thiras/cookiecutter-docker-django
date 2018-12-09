@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  postgres:
+    image: postgres:10
+    restart: always
+    env_file: .env
+
+  pgadmin:
+    depends_on: postgres
+    image: dpage/pgadmin4
+    ports:
+      - '8001:80'
+    restart: always
+    env_file: .env
+
+  django:
+    depends_on: postgres
+    build: .
+    command: 'python3 manage py migrate && python3 manage.py runserver 0:8000'
+    ports:
+      - '8000:8000'
+    restart: on-failure
+    volumes:
+      - .:/app
