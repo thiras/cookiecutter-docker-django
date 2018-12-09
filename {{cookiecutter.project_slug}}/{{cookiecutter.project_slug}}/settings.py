@@ -65,8 +65,9 @@ MIDDLEWARE = [
 
 # Insert debug_toolbar middleware as first element 
 # Warning at: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
+
 if DEBUG:
-    INSTALLED_APPS.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 
