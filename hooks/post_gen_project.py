@@ -3,6 +3,7 @@ import random
 import string
 import fileinput
 import re.sub
+import urllib.request
 
 def remove_files(*file_names):
     for i in file_names:
@@ -44,3 +45,5 @@ def main():
 
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove_files('docker-compose.yml', '.dockerignore', 'Dockerfile')
+
+    urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')
