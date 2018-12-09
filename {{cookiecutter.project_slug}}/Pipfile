@@ -11,6 +11,7 @@ django = "*"
 django-environ = "*"
 "psycopg2-binary" = "*"
 django-extensions = "*"
+django-model-utils = "*"
 
 [requires]
 python_version = "3.6"
