@@ -10,6 +10,7 @@ django-debug-toolbar = "*"
 django = "*"
 django-environ = "*"
 "psycopg2-binary" = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.6"
