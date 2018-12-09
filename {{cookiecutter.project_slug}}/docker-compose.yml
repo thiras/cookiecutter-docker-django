@@ -6,7 +6,7 @@ services:
     image: postgres:10
     restart: always
     env_file: .env
-
+{%- if cookiecutter.use_pgadmin == "y" -%}
   pgadmin:
     depends_on: postgres
     image: dpage/pgadmin4
@@ -14,7 +14,7 @@ services:
       - '8001:80'
     restart: always
     env_file: .env
-
+{%- endif -%}
   django:
     depends_on: postgres
     build: .
