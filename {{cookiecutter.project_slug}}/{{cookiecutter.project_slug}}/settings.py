@@ -35,6 +35,8 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    INTERNAL_IPS = ['127.0.0.1']
 
 # Application definition
 
@@ -47,6 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,6 +61,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Insert debug_toolbar middleware as first element 
+# Warning at: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
+if DEBUG:
+    INSTALLED_APPS.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 
