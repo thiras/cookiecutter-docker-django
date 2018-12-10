@@ -46,6 +46,8 @@ def main():
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove_files('docker-compose.yml', '.dockerignore', 'Dockerfile')
 
+    if "{{ cookiecutter.use_heroku }}".lower() == "n":
+        remove_files('Procfile')
     
     # Download .gitignore for Django
     urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')

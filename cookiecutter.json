@@ -16,6 +16,7 @@
   "domain_name": "example.com",
   "timezone": "UTC",
   "use_docker": "y",
+  "use_heroku": "n",
   "use_pgadmin": "y",
   "pgadmin_password": ""
 }

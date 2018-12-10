@@ -142,3 +142,8 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = root('media')
 MEDIA_URL = '/media/'
+
+{% if cookiecutter.use_heroku == "y" %}
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+{% endif %}
