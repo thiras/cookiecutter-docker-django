@@ -145,5 +145,6 @@ MEDIA_URL = '/media/'
 
 {% if cookiecutter.use_heroku == "y" %}
 # Activate Django-Heroku.
+import django_heroku
 django_heroku.settings(locals())
 {% endif %}
