@@ -27,7 +27,7 @@ def generate_random_string(
         symbols += ''.join(suitable)
     return ''.join([random.choice(symbols) for i in range(length)])
 
-def insert_random(strings, length):
+def insert_random(length, *strings):
     for i in strings:
         with open('.env', 'w') as f:
             s = re.sub(i, generate_random_string(length), f)
@@ -38,10 +38,9 @@ def main():
         remove_files('LICENSE')
 
     # Generate and insert randoms
-    insert_random('CC_SECRET_KEY_CC', 30)
-    insert_random('CC_DB_USER_CC', 24)
-    insert_random('CC_DB_PASS_CC', 24)
-    insert_random('CC_DB_CC', 16)
+    insert_random(30, 'CC_SECRET_KEY_CC')
+    insert_random(24, 'CC_DB_USER_CC', 'CC_DB_PASS')
+    insert_random(16, 'CC_DB_CC')
 
     if "{{ cookiecutter.create_gitlab_ci }}".lower() == "n":
         remove_files('.gitlab-ci.yml')
