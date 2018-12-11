@@ -9,6 +9,7 @@ RUN apk --no-cache add --update \
     postgresql-dev \
     build-base \
     gettext \
+    && pip install pip --upgrade \
     && pip install pipenv
 
 # app directory
@@ -28,4 +29,4 @@ RUN apk del -r python3-dev postgresql
 
 # prep
 # COPY mos /app/
-CMD python manage.py migrate && gunicorn {{ cookiecutter.project_slug }}.wsgi
+CMD [ "python", "manage.py" ]

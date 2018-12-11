@@ -18,7 +18,7 @@ services:
   django:
     depends_on: postgres
     build: .
-    command: "python3 manage py migrate && python3 manage.py runserver 0:8000"
+    command: bash -c "coverage run --source='.' manage.py test myapp && coverage report"
     ports:
       - "8000:8000"
     restart: on-failure
