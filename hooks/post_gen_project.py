@@ -34,7 +34,7 @@ def insert_random(length, *strings):
             f.write(s)
 
 def main():
-    if "{{ cookiecutter.open_source_license }}" ==  "Not open source":
+    if "{{ cookiecutter.license }}" ==  "Not open source":
         remove_files('LICENSE')
 
     # Generate and insert randoms
