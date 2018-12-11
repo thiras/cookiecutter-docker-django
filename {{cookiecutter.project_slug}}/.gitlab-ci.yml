@@ -19,7 +19,7 @@ build:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
-{% if codeclimate_control_at_ci == "y" %}
+{% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
   stage: test
   tags:
