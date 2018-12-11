@@ -43,6 +43,9 @@ def main():
     insert_random('CC_DB_PASS_CC', 24)
     insert_random('CC_DB_CC', 16)
 
+    if "{{ cookiecutter.create_gitlab_ci }}".lower() == "n":
+        remove_files('.gitlab-ci.yml')
+
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove_files('docker-compose.yml', '.dockerignore', 'Dockerfile')
 

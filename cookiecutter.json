@@ -5,6 +5,8 @@
   "project_name": "Cookiecutter Docker Django",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_short_description": "Unbiased Dockerized Django Cookiecutter",
+  "year": "{% now 'utc', '%Y' %}",
+  "timezone": "UTC",
   "version": "0.1.0",
   "open_source_license": [
     "MIT",
@@ -14,9 +16,11 @@
     "Not open source"
   ],
   "domain_name": "example.com",
-  "timezone": "UTC",
   "use_docker": "y",
+  "create_gitlab_ci": "y",
+  "codeclimate_control_at_ci": "n",
   "use_heroku": "n",
   "use_pgadmin": "y",
-  "pgadmin_password": ""
+  "pgadmin_password": "",
+  "_extensions": ["jinja2_time.TimeExtension"]
 }
