@@ -2,8 +2,8 @@ import os
 import random
 import string
 import fileinput
-import re.sub
-import urllib.request
+import re
+import urllib
 
 def remove_files(*file_names):
     for i in file_names:
