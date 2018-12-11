@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+WSGI_APPLICATION = '{{ cookiecutter.project_slug }}.wsgi.application'
 
 
 # Database
