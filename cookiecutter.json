@@ -1,7 +1,7 @@
 {
   "full_name": "Ant Somers",
   "email": "antsomers@gmail.com",
-  "github_username": "thiras",
+  "gitlab_username": "thiras",
   "project_name": "Cookiecutter Docker Django",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_short_description": "Unbiased Dockerized Django Cookiecutter",
