@@ -1,13 +1,11 @@
 import os
 import random
 import string
-import fileinput
-import re
-import urllib
+import urllib.request
 
 def remove_files(*file_names):
     for i in file_names:
-        os.remove(file_names)
+        os.remove(i)
 
 def generate_random_string(
     length,
@@ -27,20 +25,30 @@ def generate_random_string(
         symbols += ''.join(suitable)
     return ''.join([random.choice(symbols) for i in range(length)])
 
-def insert_random(length, *strings):
-    for i in strings:
-        with open('.env', 'w') as f:
-            s = re.sub(i, generate_random_string(length), f)
-            f.write(s)
+def set_flag(file_path, flag, value=None, formatted=None, *args, **kwargs):
+    if value is None:
+        random_string = generate_random_string(*args, **kwargs)
+        if random_string is None:
+            print(
+                "We couldn't find a secure pseudo-random number generator on your system. "
+                "Please, make sure to manually {} later.".format(flag)
+            )
+            random_string = flag
+        if formatted is not None:
+            random_string = formatted.format(random_string)
+        value = random_string
+
+    with open(file_path, "r+") as f:
+        file_contents = f.read().replace(flag, value)
+        f.seek(0)
+        f.write(file_contents)
+        f.truncate()
+
+    return value
 
 def main():
     if "{{ cookiecutter.license }}" ==  "Not open source":
         remove_files('LICENSE')
-
-    # Generate and insert randoms
-    insert_random(30, 'CC_SECRET_KEY_CC')
-    insert_random(24, 'CC_DB_USER_CC', 'CC_DB_PASS')
-    insert_random(16, 'CC_DB_CC')
 
     if "{{ cookiecutter.create_gitlab_ci }}".lower() == "n":
         remove_files('.gitlab-ci.yml')
@@ -53,3 +61,35 @@ def main():
     
     # Download .gitignore for Django
     urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')
+
+    # Set secret Key
+    set_flag(
+        '.env',
+        'CC_SECRET_KEY_CC',
+        length=64,
+        punctuation=True,
+    )
+
+    # Set random database user
+    set_flag(
+        '.env',
+        'CC_DB_USER_CC',
+        length=32,
+    )
+
+    # Set random password for database user password
+    set_flag(
+        '.env',
+        'CC_DB_PASS_CC',
+        length=24,
+    )
+
+    # Set random database
+    set_flag(
+        '.env',
+        'CC_DB_CC',
+        length=32,
+    )
+
+if __name__ == "__main__":
+    main()
