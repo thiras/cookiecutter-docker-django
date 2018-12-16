@@ -21,11 +21,15 @@ To use this cookiecutter script, you need to have Python 3 installed on your sys
 
 First, you need to install python 3 version of Cookiecutter:
 
-`pip3 install cookiecutter`
+```
+pip3 install cookiecutter
+```
 
 Now you can run against this repo:
 
-`cookiecutter https://gitlab.com/thiras/cookiecutter-docker-django`
+```
+cookiecutter https://gitlab.com/thiras/cookiecutter-docker-django
+```
 
 You'll be prompted for some values and options script needs.
 
