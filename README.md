@@ -1,6 +1,6 @@
 # Cookiecutter for Dockerized Django
 
-Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiecutter](https://github.com/audreyr/cookiecutter) script set for bootstrapping dockerized and CI enabled Django projects.
+Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiecutter](https://github.com/audreyr/cookiecutter) script set for bootstrapping dockerized and CI enabled Django projects. Inspired by [cookiecutter-django](https://github.com/pydanny/cookiecutter-django)
 
 ## Features
 * For latest stable Django
@@ -15,3 +15,19 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 * Complete dockerization
 * GitLab CI/CD for testing
 * Procfile for deploying to Heroku
+
+## Usage
+To use this cookiecutter script, you need to have Python 3 installed on your system.
+
+First, you need to install python 3 version of Cookiecutter:
+
+`pip3 install cookiecutter`
+
+Now you can run against this repo:
+
+`cookiecutter https://gitlab.com/thiras/cookiecutter-docker-django`
+
+You'll be prompted for some values and options script needs.
+
+## Contributions
+Contributions are welcome. Contributors should comply with [Code of Conduct](CODE_OF_CONDUCT.md).
