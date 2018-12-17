@@ -1,4 +1,5 @@
 FROM python:3.6-alpine
+LABEL maintainer="{{ cookiecutter.email }}"
 
 ENV PYTHONUNBUFFERED 1
 
