@@ -74,7 +74,7 @@ def main():
     set_flag(
         '.env',
         'CC_SECRET_KEY_CC',
-        length=64,
+        length=50,
         punctuation=True,
     )
 
