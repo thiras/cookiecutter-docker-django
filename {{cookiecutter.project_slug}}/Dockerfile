@@ -23,9 +23,6 @@ COPY Pipfile.lock /app/
 # setup
 RUN pipenv install --system --deploy --dev
 
-# FIX ME: Find better solution
-RUN apk del -r python3-dev postgresql
-
 COPY . /app
 
 CMD [ "python", "manage.py" ]
