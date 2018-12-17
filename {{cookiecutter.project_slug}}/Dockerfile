@@ -12,21 +12,20 @@ RUN apk --no-cache add --update \
     && pip install pip --upgrade \
     && pip install pipenv
 
+# fix me
+RUN apk del -r python3-dev postgresql
+
 # app directory
 RUN mkdir /app
 WORKDIR /app
-# COPY Pipfile /app/
-# COPY Pipfile.lock /app/
+
+# Copying dependency first to reduce rebuild time
+COPY Pipfile /app/
+COPY Pipfile.lock /app/
 
 # setup
 RUN pipenv install --system --deploy --dev
 
-# Django env
-# COPY .env /app/mos/
+COPY . /app
 
-# clean FIX ME
-RUN apk del -r python3-dev postgresql
-
-# prep
-# COPY mos /app/
 CMD [ "python", "manage.py" ]
