@@ -17,7 +17,7 @@ RUN apk --no-cache add --update \
 RUN mkdir /app
 WORKDIR /app
 
-# Copying dependency first to reduce rebuild time
+# Copy dependency first to reduce rebuild time
 COPY Pipfile /app/
 COPY Pipfile.lock /app/
 
