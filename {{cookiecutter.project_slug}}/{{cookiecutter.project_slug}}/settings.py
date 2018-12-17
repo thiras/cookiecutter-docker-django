@@ -22,7 +22,7 @@ root = environ.Path(__file__) - 1
 env = environ.Env(
     DEBUG=(bool, False),
 )
-environ.Env.read_env() # Read .env
+environ.Env.read_env('.env') # Read .env
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
