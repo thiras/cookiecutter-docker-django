@@ -69,6 +69,9 @@ MIDDLEWARE = [
 if DEBUG:
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 
 TEMPLATES = [
