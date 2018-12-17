@@ -16,9 +16,7 @@ django-environ = "*"
 django-extensions = "*"
 django-model-utils = "*"
 gunicorn = "*"
-{%if cookiecutter.use_heroku == "y" %}
-django-heroku
-{% endif %}
+django-heroku = "*"
 
 [requires]
 python_version = "3.6"

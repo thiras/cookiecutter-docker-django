@@ -58,6 +58,14 @@ def main():
 
     if "{{ cookiecutter.use_heroku }}".lower() == "n":
         remove_files('Procfile')
+
+        with open("Pipfile", "r+") as f:
+            lines = f.readlines()
+            f.seek(0)
+            for i in lines:
+                if "django-heroku" not in i:
+                    f.write(i)
+            f.truncate
     
     # Download .gitignore for Django
     urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')
