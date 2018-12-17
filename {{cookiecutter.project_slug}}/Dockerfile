@@ -12,9 +12,6 @@ RUN apk --no-cache add --update \
     && pip install pip --upgrade \
     && pip install pipenv
 
-# fix me
-RUN apk del -r python3-dev postgresql
-
 # app directory
 RUN mkdir /app
 WORKDIR /app
@@ -25,6 +22,9 @@ COPY Pipfile.lock /app/
 
 # setup
 RUN pipenv install --system --deploy --dev
+
+# FIX ME: Find better solution
+RUN apk del -r python3-dev postgresql
 
 COPY . /app
 
