@@ -10,6 +10,7 @@ variables:
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
 
+{% if cookiecutter.create_gitlab_ci == "with local runner" %}
 build:
   stage: build
   tags:
@@ -39,3 +40,42 @@ test:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
+{% elif cookiecutter.create_gitlab_ci == "with GitLab shared runners (DinD)" %}
+image: docker:stable
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+{% if cookiecutter.codeclimate_control_at_ci == "y" %}
+codequality:
+  stage: test
+  tags:
+    - shell
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker pull codeclimate/codeclimate
+    - docker run --env CODECLIMATE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > codeclimate.json
+  artifacts:
+    paths: [codeclimate.json]
+{% endif %}
+test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
+  coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
+{% endif %}

@@ -18,7 +18,11 @@
   ],
   "domain_name": "example.com",
   "use_docker": "y",
-  "create_gitlab_ci": "y",
+  "create_gitlab_ci": [
+    "with local runner",
+    "with GitLab shared runners (DinD)",
+    "n"
+  ],
   "codeclimate_control_at_ci": "n",
   "use_heroku": "n",
   "use_pgadmin": "y",
