@@ -5,10 +5,10 @@ stages:
   # - deploy
 
 variables:
-  CONTAINER_IMAGE: registry.gitlab.com/pathto/myapp
+  CONTAINER_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}
   CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
-  DEPLOY_SERVER_URL: myserver.example.com
-  DEPLOY_PATH: /var/data/myapp
+  DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
+  DEPLOY_PATH: /app
 
 build:
   stage: build
@@ -18,7 +18,6 @@ build:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
-
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
   stage: test
@@ -31,7 +30,6 @@ codequality:
   artifacts:
     paths: [codeclimate.json]
 {% endif %}
-
 test:
   stage: test
   tags:
