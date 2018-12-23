@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 root = environ.Path(__file__) - 1
 env = environ.Env(
     DEBUG=(bool, False),
+    SECRET_KEY=(str, 'q+$*qej#f&yq%+n^2l&9g8msazk#3aete7$1^=r5gcl(7xet!%'),
 )
 environ.Env.read_env('.env') # Read .env
 
