@@ -9,7 +9,6 @@ variables:
   CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
-
 {% if cookiecutter.create_gitlab_ci == "with local runner" %}
 build:
   stage: build
@@ -45,6 +44,7 @@ image: docker:stable
 
 services:
   - docker:dind
+  - postgres:10
 
 before_script:
   - docker info
@@ -76,6 +76,7 @@ test:
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
+    - docker run $CONTAINER_TEST_IMAGE bash -c "coverage run --source='.' manage.py test myapp && coverage report"
+    # - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
 {% endif %}
