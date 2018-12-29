@@ -19,6 +19,7 @@ while (( $# )); do
             ;;
         coverage)
             coverage run --source='.' manage.py test && coverage report
+            ;;
         run_dev)
             python manage.py runserver 0:8000
             ;;
