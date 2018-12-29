@@ -12,7 +12,7 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 * Integrated [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar), [django-extensinons](https://github.com/django-extensions/django-extensions) and [django-model-utils](https://github.com/jazzband/django-model-utils)
 
 ## Optional Integrations
-* Complete dockerization
+* Complete dockerization with simple extendable docker-entrypoint script
 * GitLab CI/CD for testing
 * Procfile for deploying to Heroku
 
