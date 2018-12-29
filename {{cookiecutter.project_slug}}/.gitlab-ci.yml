@@ -10,9 +10,10 @@ variables:
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
 
+{% if cookiecutter.create_gitlab_ci == "with local runner" %}
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
-{% if cookiecutter.create_gitlab_ci == "with local runner" %}
+
 build:
   stage: build
   tags:
@@ -59,6 +60,7 @@ services:
 
 before_script:
   - docker info
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
 build:
   stage: build
