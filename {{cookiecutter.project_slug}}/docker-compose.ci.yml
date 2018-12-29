@@ -20,7 +20,7 @@ services:
     depends_on: 
       - postgres
     build: .
-    command: bash -c "coverage run --source='.' manage.py test myapp && coverage report"
+    command: coverage
     ports:
       - "8000:8000"
     restart: on-failure

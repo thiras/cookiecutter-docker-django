@@ -1,21 +1,23 @@
 stages:
   - build
   - test
-  # - release
+  - release
   # - deploy
 
 variables:
-  CONTAINER_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}
-  CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}:master
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}:$CI_COMMIT_REF_SLUG
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 {% if cookiecutter.create_gitlab_ci == "with local runner" %}
 build:
   stage: build
   tags:
     - shell
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
@@ -24,7 +26,6 @@ codequality:
   tags:
     - shell
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull codeclimate/codeclimate
     - docker run --env CODECLIMATE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > codeclimate.json
   artifacts:
@@ -35,10 +36,20 @@ test:
   tags:
     - shell
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull $CONTAINER_TEST_IMAGE
     - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
-  coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
+  coverage: '/TOTAL\s+(\d+)\s+(\d+)\s+(\d+%)/'
+
+release:
+  stage: release
+  tags:
+    - shell
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
 {% elif cookiecutter.create_gitlab_ci == "with GitLab shared runners (DinD)" %}
 image: docker:stable
 
@@ -54,16 +65,14 @@ build:
   tags:
     - docker
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
   stage: test
   tags:
-    - shell
+    - docker
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull codeclimate/codeclimate
     - docker run --env CODECLIMATE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > codeclimate.json
   artifacts:
@@ -74,9 +83,19 @@ test:
   tags:
     - docker
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run $CONTAINER_TEST_IMAGE bash -c "coverage run --source='.' manage.py test myapp && coverage report"
+    - docker run $CONTAINER_TEST_IMAGE coverage
     # - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
+
+release:
+  stage: release
+  tags:
+    - shell
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
 {% endif %}

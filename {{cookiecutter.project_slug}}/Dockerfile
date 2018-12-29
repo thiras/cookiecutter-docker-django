@@ -26,4 +26,7 @@ RUN pipenv install --system --deploy --dev
 
 COPY . /app
 
-CMD [ "python", "manage.py" ]
+RUN ["chmod", "+x", "docker-entrypoint.sh"]
+
+# CMD [ "python", "manage.py" ]
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
