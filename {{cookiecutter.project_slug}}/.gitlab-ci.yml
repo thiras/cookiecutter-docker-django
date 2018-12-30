@@ -93,7 +93,7 @@ test:
 release:
   stage: release
   tags:
-    - shell
+    - docker
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
