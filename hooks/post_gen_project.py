@@ -78,6 +78,14 @@ def main():
         punctuation=True,
     )
 
+    # Set development secret key at settings.py
+    set_flag(
+        '{{ cookiecutter.project_slug }}/settings.py',
+        'CC_SECRET_KEY_CC',
+        length=50,
+        punctuation=True,
+    )
+
     # Set random database user
     set_flag(
         '.env',
