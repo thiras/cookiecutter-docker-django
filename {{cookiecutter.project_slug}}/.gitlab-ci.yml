@@ -5,8 +5,8 @@ stages:
   # - deploy
 
 variables:
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}:master
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/{{ cookiecutter.gitlab_username }}/{{ cookiecutter.project_slug }}:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:master
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
 
