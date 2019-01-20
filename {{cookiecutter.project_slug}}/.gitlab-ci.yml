@@ -56,7 +56,6 @@ image: docker:stable
 
 services:
   - docker:dind
-  - postgres:10
 
 before_script:
   - docker info
@@ -84,6 +83,8 @@ test:
   stage: test
   tags:
     - docker
+  services:
+    - postgres:10
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker run $CONTAINER_TEST_IMAGE coverage
