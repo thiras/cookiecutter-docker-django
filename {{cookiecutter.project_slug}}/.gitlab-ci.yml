@@ -85,6 +85,7 @@ test:
     - docker
   services:
     - postgres:10
+    - docker:dind
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker run $CONTAINER_TEST_IMAGE coverage
