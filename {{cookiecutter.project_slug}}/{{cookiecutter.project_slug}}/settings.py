@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 root = environ.Path(__file__) - 1
 env = environ.Env(
     DEBUG=(bool, False),
-    SECRET_KEY=(str, 'CC_SECRET_KEY_CC'),
+    SECRET_KEY=(str, os.getenv('SECRET_KEY', 'CC_SECRET_KEY_CC')),
+    DATABASE_URL=(str, os.getenv('DATABASE_URL')),
 )
 environ.Env.read_env('.env') # Read .env
 
