@@ -66,7 +66,8 @@ build:
   tags:
     - docker
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker pull $CONTAINER_TEST_IMAGE || true
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
@@ -84,11 +85,11 @@ test:
   tags:
     - docker
   services:
-    - postgres:10
     - docker:dind
+    - postgres:10
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run $CONTAINER_TEST_IMAGE coverage
+    - docker run --env SECRET_KEY --env DATABASE_URL $CONTAINER_TEST_IMAGE coverage
     # - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL\s+(\d+)\s+(\d+)\s+(\d+%)/'
 
