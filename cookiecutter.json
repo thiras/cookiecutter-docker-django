@@ -19,8 +19,9 @@
   "domain_name": "example.com",
   "use_docker": "y",
   "create_gitlab_ci": [
-    "with local runner",
+    "with shell runner",
     "with GitLab shared runners (DinD)",
+    "without Docker",
     "n"
   ],
   "codeclimate_control_at_ci": "n",
