@@ -13,7 +13,10 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 
 ## Optional Integrations
 * Complete dockerization with simple extendable docker-entrypoint script
-* GitLab CI/CD for testing
+* GitLab CI configuration for testing with options:
+  * Shell runner
+  * DinD (Docker-in-Docker) runner
+  * Non-dockerized runner
 * Procfile for deploying to Heroku
 
 ## Usage
@@ -32,6 +35,8 @@ cookiecutter https://gitlab.com/thiras/cookiecutter-docker-django
 ```
 
 You'll be prompted for some values and options script needs.
+
+After create your Gitlab repository, you need to add `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` variables under the CI/CD menu of settings.
 
 ## Contributions
 Contributions are welcome. Contributors should comply with [Code of Conduct](CODE_OF_CONDUCT.md).
