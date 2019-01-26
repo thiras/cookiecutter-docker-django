@@ -36,7 +36,5 @@ cookiecutter https://gitlab.com/thiras/cookiecutter-docker-django
 
 You'll be prompted for some values and options script needs.
 
-After create your Gitlab repository, you need to add `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` variables under the CI/CD menu of settings.
-
 ## Contributions
 Contributions are welcome. Contributors should comply with [Code of Conduct](CODE_OF_CONDUCT.md).

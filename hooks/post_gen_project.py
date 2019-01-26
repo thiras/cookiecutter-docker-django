@@ -73,17 +73,13 @@ def main():
     # Download .gitignore for Django
     urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')
 
+    #
+    # .env file 
+    #
+
     # Set secret Key
     set_flag(
         '.env',
-        'CC_SECRET_KEY_CC',
-        length=50,
-        punctuation=True,
-    )
-
-    # Set development secret key at settings.py
-    set_flag(
-        '{{ cookiecutter.project_slug }}/settings.py',
         'CC_SECRET_KEY_CC',
         length=50,
         punctuation=True,
@@ -93,7 +89,7 @@ def main():
     set_flag(
         '.env',
         'CC_DB_USER_CC',
-        length=32,
+        length=24,
     )
 
     # Set random password for database user password
@@ -106,6 +102,43 @@ def main():
     # Set random database
     set_flag(
         '.env',
+        'CC_DB_CC',
+        length=32,
+    )
+
+    #
+    # settings.py file
+    #
+
+    # Set development secret key at settings.py
+    set_flag(
+        '{{ cookiecutter.project_slug }}/settings.py',
+        'CC_SECRET_KEY_CC',
+        length=50,
+        punctuation=True,
+    )
+
+    #
+    # .gitlab-ci.yml
+    #
+
+    # Set random database user
+    set_flag(
+        '.gitlab-ci.yml',
+        'CC_DB_USER_CC',
+        length=24,
+    )
+
+    # Set random password for database user password
+    set_flag(
+        '.gitlab-ci.yml',
+        'CC_DB_PASS_CC',
+        length=24,
+    )
+
+    # Set random database
+    set_flag(
+        '.gitlab-ci.yml',
         'CC_DB_CC',
         length=32,
     )
