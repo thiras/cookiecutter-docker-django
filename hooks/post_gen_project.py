@@ -56,6 +56,9 @@ def main():
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove_files('docker-compose.yml', '.dockerignore', 'Dockerfile', 'docker-entrypoint.sh')
 
+    if "{{ cookiecutter.create_gitlab_ci }}".lower() != "with shell runner":
+        remove_files('docker-compose.ci.yml')
+
     if "{{ cookiecutter.use_heroku }}".lower() == "n":
         remove_files('Procfile')
 
