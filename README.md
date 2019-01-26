@@ -13,10 +13,10 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 
 ## Optional Integrations
 * Complete dockerization with simple extendable docker-entrypoint script
-* GitLab CI configuration for testing with options:
+* GitLab CI configuration for testing with options
   * Shell runner
   * DinD (Docker-in-Docker) runner
-  * Non-dockerized runner
+  * Non-dockerized shell runner
 * Procfile for deploying to Heroku
 
 ## Usage
