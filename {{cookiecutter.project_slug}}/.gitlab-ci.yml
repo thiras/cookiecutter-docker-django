@@ -7,6 +7,11 @@ stages:
 variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:master
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  POSTGRES_DB: $POSTGRES_DB
+  POSTGRES_USER: $POSTGRES_USER
+  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
   DEPLOY_PATH: /app
 
@@ -75,10 +80,15 @@ codequality:
   tags:
     - docker
   script:
-    - docker pull codeclimate/codeclimate
-    - docker run --env CODECLIMATE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > codeclimate.json
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
   artifacts:
-    paths: [codeclimate.json]
+    reports:
+      codequality: [codeclimate.json]
 {% endif %}
 test:
   stage: test
@@ -88,7 +98,7 @@ test:
     - docker:dind
     - postgres:10
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
+    - export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_PORT_5432_TCP_ADDR}:5432/${POSTGRES_DB}"
     - docker run --env SECRET_KEY --env DATABASE_URL $CONTAINER_TEST_IMAGE coverage
     # - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL\s+(\d+)\s+(\d+)\s+(\d+%)/'
