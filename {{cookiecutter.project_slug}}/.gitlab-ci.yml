@@ -117,9 +117,9 @@ test:
     - docker:dind
     - postgres:10
   variables:
-    - POSTGRES_DB: CC_DB_CC
-    - POSTGRES_USER: CC_DB_USER_CC
-    - POSTGRES_PASSWORD: CC_DB_PASS_CC
+    POSTGRES_DB: CC_DB_CC
+    POSTGRES_USER: CC_DB_USER_CC
+    POSTGRES_PASSWORD: CC_DB_PASS_CC
   script:
     - export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_PORT_5432_TCP_ADDR}:5432/${POSTGRES_DB}"
     - docker run --env SECRET_KEY --env DATABASE_URL $CONTAINER_TEST_IMAGE coverage
