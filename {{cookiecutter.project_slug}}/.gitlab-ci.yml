@@ -23,8 +23,10 @@ build:
   stage: build
   tags:
     - shell
+  variables:
+    PIPENV_CFG: --dev
   script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker build --build-arg PIPENV_CFG=$PIPENV_CFG --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
@@ -88,9 +90,11 @@ build:
   stage: build
   tags:
     - docker
+  variables:
+    PIPENV_CFG: --dev
   script:
     - docker pull $CONTAINER_TEST_IMAGE || true
-    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
+    - docker build --build-arg PIPENV_CFG=$PIPENV_CFG --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:

@@ -21,10 +21,10 @@ WORKDIR /app
 COPY Pipfile /app/
 COPY Pipfile.lock /app/
 
-ARG DOCKER_PIPENV_CFG
+ARG PIPENV_CFG
 
 # setup
-RUN pipenv install --system --deploy $DOCKER_PIPENV_CFG
+RUN pipenv install --system --deploy $PIPENV_CFG
 
 COPY . /app
 
