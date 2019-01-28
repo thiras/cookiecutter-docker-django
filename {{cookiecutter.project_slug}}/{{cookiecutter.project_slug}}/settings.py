@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['{{ cookiecutter.domain_name }}']
 
 if DEBUG:
     INTERNAL_IPS = ['127.0.0.1']
+    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
 # Application definition
 
