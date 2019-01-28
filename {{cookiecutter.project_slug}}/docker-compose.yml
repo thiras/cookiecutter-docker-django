@@ -19,8 +19,11 @@ services:
   django:
     depends_on:
       - postgres
-    build: .
-    command: migrate run
+    build:
+      context: .
+      args:
+        - DOCKER_PIPENV_CFG=--dev
+    command: migrate run_dev
     ports:
       - "8000:8000"
     restart: on-failure
