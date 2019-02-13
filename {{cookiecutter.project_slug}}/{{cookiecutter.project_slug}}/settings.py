@@ -38,7 +38,10 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['{{ cookiecutter.domain_name }}']
 
 if DEBUG:
+    import socket
     INTERNAL_IPS = ['127.0.0.1']
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS += [ip[:-1] + '1' for ip in ips]
     ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
 # Application definition
