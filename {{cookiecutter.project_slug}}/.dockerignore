@@ -2,4 +2,3 @@ Dockerfile
 docker-compose*
 .vscode
 .git
-Procfile
