@@ -12,7 +12,7 @@ coverage = "*"
 [packages]
 django = "*"
 django-environ = "*"
-"psycopg2-binary" = "*"
+psycopg2-binary = "*"
 django-extensions = "*"
 django-model-utils = "*"
 gunicorn = "*"
