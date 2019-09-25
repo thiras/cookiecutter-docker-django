@@ -25,7 +25,6 @@
     "n"
   ],
   "codeclimate_control_at_ci": "n",
-  "use_heroku": "n",
   "use_pgadmin": "y",
   "pgadmin_password": "",
   "_extensions": ["jinja2_time.TimeExtension"]

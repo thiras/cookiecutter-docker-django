@@ -17,7 +17,6 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
   * Shell runner
   * DinD (Docker-in-Docker) runner
   * Non-dockerized shell runner
-* Procfile for deploying to Heroku
 
 ## Usage
 To use this cookiecutter script, you need to have Python 3 installed on your system.

@@ -73,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Insert debug_toolbar middleware as first element 
+# Insert debug_toolbar middleware as first element
 # Warning at: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
 
 if DEBUG:
@@ -157,9 +157,3 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = root('media')
 MEDIA_URL = '/media/'
-
-{% if cookiecutter.use_heroku == "y" %}
-# Activate Django-Heroku.
-import django_heroku
-django_heroku.settings(locals())
-{% endif %}

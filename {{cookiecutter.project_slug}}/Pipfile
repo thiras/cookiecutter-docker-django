@@ -12,11 +12,10 @@ coverage = "*"
 [packages]
 django = "*"
 django-environ = "*"
-psycopg2-binary = "*"
 django-extensions = "*"
 django-model-utils = "*"
+psycopg2-binary = "*"
 gunicorn = "*"
-django-heroku = "*"
 
 [requires]
 python_version = "3.6"
