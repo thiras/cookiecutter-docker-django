@@ -59,9 +59,6 @@ def main():
     if "{{ cookiecutter.create_gitlab_ci }}".lower() != "with shell runner":
         remove_files('docker-compose.ci.yml')
 
-    # Download .gitignore for Django
-    urllib.request.urlretrieve('https://www.gitignore.io/api/django', '.gitignore')
-
     #
     # .env file
     #
