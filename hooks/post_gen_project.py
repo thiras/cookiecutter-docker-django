@@ -64,8 +64,15 @@ def main():
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove('docker-compose.yml', '.dockerignore', 'Dockerfile', 'docker-entrypoint.sh')
 
-    if "{{ cookiecutter.create_gitlab_ci }}".lower() != "with shell runner":
+    if "{{ cookiecutter.create_gitlab_ci }}" != "with shell runner":
         remove('docker-compose.ci.yml')
+
+    if "{{ cookiecutter.package_manager }}" == "pipenv":
+        remove("pyproject.toml")
+    elif "{{ cookiecutter.package_manager }}" == "poetry":
+        remove("Pipfile")
+    else:
+        remove("Pipfile", "pyproject.toml")
 
     ##################
     # .env file

@@ -6,7 +6,7 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 * For latest stable Django
 * Works with Python 3.7
 * PostgreSQL for database
-* Dependency management with [Pipenv](https://pipenv.readthedocs.io/en/latest/)
+* Your choice of dependency management. Supports [Pipenv](https://pipenv.readthedocs.io/en/latest/), [poetry](https://poetry.eustace.io/), [pip-tools](https://github.com/jazzband/pip-tools) or plain old pip.
 * [12-Factor](https://12factor.net/) based settings via [django-environ](https://github.com/joke2k/django-environ)
 * Custom User model
 * Integrated [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar), [django-extensinons](https://github.com/django-extensions/django-extensions) and [django-model-utils](https://github.com/jazzband/django-model-utils)
@@ -16,7 +16,7 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 ## Optional Integrations
 * Complete dockerization with simple extendable docker-entrypoint script
 * GitLab CI configuration for testing with options
-  * Shell runner
+  * Shell runner with docker
   * DinD (Docker-in-Docker) runner
   * Non-dockerized shell runner
 

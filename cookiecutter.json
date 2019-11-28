@@ -27,5 +27,10 @@
   "codeclimate_control_at_ci": "n",
   "use_pgadmin": "y",
   "pgadmin_password": "",
-  "_extensions": ["jinja2_time.TimeExtension"]
+  "_extensions": ["jinja2_time.TimeExtension"],
+  "package_manager": [
+    "pipenv",
+    "poerty",
+    "pip-tools/no manager"
+  ]
 }
