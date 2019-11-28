@@ -3,18 +3,12 @@ stages:
   - build
   - test
   - release
-  # - deploy
 
 variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:master
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_DRIVER: overlay2
-  POSTGRES_DB: $POSTGRES_DB
-  POSTGRES_USER: $POSTGRES_USER
-  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-  DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
-  DEPLOY_PATH: /app
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
@@ -23,10 +17,9 @@ build:
   stage: build
   tags:
     - shell
-  variables:
-    PIPENV_CFG: --dev
   script:
-    - docker build --build-arg PIPENV_CFG=$PIPENV_CFG --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
+    - docker pull $CONTAINER_TEST_IMAGE || true
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
@@ -35,10 +28,15 @@ codequality:
     - shell
   allow_failure: true
   script:
-    - docker pull codeclimate/codeclimate
-    - docker run --env CODECLIMATE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > codeclimate.json
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
   artifacts:
-    paths: [codeclimate.json]
+    reports:
+      codequality: gl-code-quality-report.json
 {% endif %}
 test:
   stage: test
@@ -64,18 +62,12 @@ stages:
   - build
   - test
   - release
-  # - deploy
 
 variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:master
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_DRIVER: overlay2
-  POSTGRES_DB: $POSTGRES_DB
-  POSTGRES_USER: $POSTGRES_USER
-  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-  DEPLOY_SERVER_URL: {{ cookiecutter.domain_name }}
-  DEPLOY_PATH: /app
 
 image: docker:stable
 
@@ -83,18 +75,15 @@ services:
   - docker:dind
 
 before_script:
-  - docker info
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
 build:
   stage: build
   tags:
     - docker
-  variables:
-    PIPENV_CFG: --dev
   script:
     - docker pull $CONTAINER_TEST_IMAGE || true
-    - docker build --build-arg PIPENV_CFG=$PIPENV_CFG --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 {% if cookiecutter.codeclimate_control_at_ci == "y" %}
 codequality:
@@ -111,7 +100,7 @@ codequality:
         "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
   artifacts:
     reports:
-      codequality: [codeclimate.json]
+      codequality: gl-code-quality-report.json
 {% endif %}
 test:
   stage: test
@@ -120,14 +109,9 @@ test:
   services:
     - docker:dind
     - postgres:10
-  variables:
-    POSTGRES_DB: CC_DB_CC
-    POSTGRES_USER: CC_DB_USER_CC
-    POSTGRES_PASSWORD: CC_DB_PASS_CC
   script:
     - export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_PORT_5432_TCP_ADDR}:5432/${POSTGRES_DB}"
     - docker run --env SECRET_KEY --env DATABASE_URL $CONTAINER_TEST_IMAGE coverage
-    # - docker-compose -f docker/compose.ci.yml -p ci up --abort-on-container-exit
   coverage: '/TOTAL\s+(\d+)\s+(\d+)\s+(\d+%)/'
 
 release:
@@ -140,14 +124,13 @@ release:
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
-{% endif %}
-{% if cookiecutter.create_gitlab_ci == "without Docker" %}
+{% elif cookiecutter.create_gitlab_ci == "without Docker" %}
 stages:
   - test
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
-image: python:3.6
+image: python:3.7
 
 services:
   - postgres:latest

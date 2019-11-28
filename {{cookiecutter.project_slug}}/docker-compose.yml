@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3"
 
 services:
 
@@ -19,10 +19,7 @@ services:
   django:
     depends_on:
       - postgres
-    build:
-      context: .
-      args:
-        PIPENV_CFG: --dev
+    build: .
     command: migrate run_dev
     ports:
       - "8000:8000"

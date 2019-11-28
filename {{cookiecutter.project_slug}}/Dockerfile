@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.7-alpine
 LABEL maintainer="{{ cookiecutter.email }}"
 
 ENV PYTHONUNBUFFERED 1
@@ -13,6 +13,8 @@ RUN apk --no-cache add --update \
     && pip install pip --upgrade \
     && pip install pipenv
 
+USER ${UID}:${GROUPS}
+
 # app directory
 RUN mkdir /app
 WORKDIR /app
@@ -21,7 +23,7 @@ WORKDIR /app
 COPY Pipfile /app/
 COPY Pipfile.lock /app/
 
-ARG PIPENV_CFG
+ARG PIPENV_CFG=""
 
 # setup
 RUN pipenv install --system --deploy $PIPENV_CFG
