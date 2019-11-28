@@ -7,7 +7,6 @@ name = "pypi"
 django-debug-toolbar = "*"
 pylint = "*"
 pylint-django = "*"
-coverage = "*"
 
 [packages]
 django = "*"
@@ -16,6 +15,7 @@ django-extensions = "*"
 django-model-utils = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
+coverage = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
