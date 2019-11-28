@@ -20,8 +20,7 @@ RUN mkdir /app
 WORKDIR /app
 
 # Copy dependency first to reduce rebuild time
-COPY Pipfile /app/
-COPY Pipfile.lock /app/
+COPY Pipfile* /app/
 
 ARG PIPENV_CFG=""
 
