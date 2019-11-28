@@ -5,8 +5,8 @@ name = "pypi"
 
 [dev-packages]
 django-debug-toolbar = "*"
-pylint = "*"
-pylint-django = "*"
+flake8 = "*"
+flake8-django = "*"
 
 [packages]
 django = "*"
