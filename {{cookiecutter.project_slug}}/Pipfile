@@ -7,6 +7,7 @@ name = "pypi"
 django-debug-toolbar = "*"
 flake8 = "*"
 flake8-django = "*"
+pre-commit = "*"
 
 [packages]
 django = "*"

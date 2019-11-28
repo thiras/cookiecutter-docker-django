@@ -11,6 +11,7 @@ Cookiecutter for Dockerized Django is an (as much as possible) unbiased [cookiec
 * Custom User model
 * Integrated [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar), [django-extensinons](https://github.com/django-extensions/django-extensions) and [django-model-utils](https://github.com/jazzband/django-model-utils)
 * Pre-configured [flake8](https://gitlab.com/pycqa/flake8) and [flake8-django](https://github.com/rocioar/flake8-django) linter
+* Pre-configured [pre-commit](https://pre-commit.com/) with [black](https://github.com/psf/black) code formatting
 
 ## Optional Integrations
 * Complete dockerization with simple extendable docker-entrypoint script
