@@ -22,7 +22,7 @@ After having that, you need to create virtual environment and install dependenci
 ```
 poetry install
 ```
-{% elif cookiecutter.package_manager == "pip-tools/no manager"}
+{% elif cookiecutter.package_manager == "pip-tools/no manager" %}
 To start develop locally, first, you need to create your virtual environment and activate it with;
 ```
 python3 -m venv .venv/
