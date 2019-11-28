@@ -4,13 +4,13 @@
 
 ## Development
 
-{% if cookiecutter.package_manager == "pipenv %}
+{% if cookiecutter.package_manager == "pipenv" %}
 To start develop locally, first, you need to create your virtual environment and install dependencies. To do this;
 
 ```
 pipenv install --dev
 ```
-{% elif cookiecutter.package_manager == "poerty" %}
+{% elif cookiecutter.package_manager == "poetry" %}
 To start develop locally, first, you need to have poetry's preview version.
 
 ```
@@ -43,7 +43,7 @@ To create requirements.txt for Docker, simply run;
 ```
 pipenv lock -r > requirements.txt
 ```
-{% elif cookiecutter.package_manager == "poerty" %}
+{% elif cookiecutter.package_manager == "poetry" %}
 ```
 poetry export -f requirements.txt
 ```

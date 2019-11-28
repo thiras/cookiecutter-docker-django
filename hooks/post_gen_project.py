@@ -157,25 +157,25 @@ def main():
     #
 
     # Set random database user
-    set_flag(
-        '.gitlab-ci.yml',
-        'CC_DB_USER_CC',
-        length=24,
-    )
+    # set_flag(
+    #     '.gitlab-ci.yml',
+    #     'CC_DB_USER_CC',
+    #     length=24,
+    # )
 
-    # Set random password for database user password
-    set_flag(
-        '.gitlab-ci.yml',
-        'CC_DB_PASS_CC',
-        length=24,
-    )
+    # # Set random password for database user password
+    # set_flag(
+    #     '.gitlab-ci.yml',
+    #     'CC_DB_PASS_CC',
+    #     length=24,
+    # )
 
-    # Set random database
-    set_flag(
-        '.gitlab-ci.yml',
-        'CC_DB_CC',
-        length=24,
-    )
+    # # Set random database
+    # set_flag(
+    #     '.gitlab-ci.yml',
+    #     'CC_DB_CC',
+    #     length=24,
+    # )
 
 
 if __name__ == "__main__":
