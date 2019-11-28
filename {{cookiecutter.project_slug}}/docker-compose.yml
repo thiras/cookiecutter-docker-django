@@ -20,6 +20,8 @@ services:
     depends_on:
       - postgres
     build: .
+    args:
+      EXTRA_PACKAGES: bash
     command: migrate run_dev
     ports:
       - "8000:8000"

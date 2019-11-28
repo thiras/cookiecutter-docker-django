@@ -3,29 +3,27 @@ LABEL maintainer="{{ cookiecutter.email }}"
 
 ENV PYTHONUNBUFFERED 1
 
+ARG EXTRA_PACKAGES=""
+
 # init
 RUN apk --no-cache add --update \
-    bash \
+    ${EXTRA_PACKAGES} \
     postgresql-client \
     postgresql-dev \
     build-base \
-    gettext \
-    && pip install pip --upgrade \
-    && pip install pipenv
+    gettext
 
 USER ${UID}:${GROUPS}
 
 # app directory
-RUN mkdir /app
+RUN ["mkdir", "/app"]
 WORKDIR /app
 
 # Copy dependency first to reduce rebuild time
-COPY Pipfile* /app/
+COPY requirements.txt /app/
 
-ARG PIPENV_CFG=""
-
-# setup
-RUN pipenv install --system --deploy $PIPENV_CFG
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 
