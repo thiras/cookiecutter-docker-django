@@ -1,17 +1,18 @@
 import os
 import random
 import string
-import urllib.request
 
-def remove_files(*file_names):
+
+def remove(*file_names):
     for i in file_names:
         os.remove(i)
 
+
 def generate_random_string(
-    length,
-    digits = True,
-    ascii_letters = True,
-    punctuation = False
+    length: int,
+    digits: bool = True,
+    ascii_letters: bool = True,
+    punctuation: bool = False
 ):
     symbols = []
     if digits:
@@ -19,13 +20,19 @@ def generate_random_string(
     if ascii_letters:
         symbols += string.ascii_letters
     if punctuation:
-        all_punctuation = set(string.punctuation)
-        exclude = {"'", '"', '\\', '$', '/'}
-        suitable = all_punctuation.difference(exclude)
-        symbols += ''.join(suitable)
+        punctuation = '!@#$%^&*(-_=+)'
+        symbols += ''.join(punctuation)
     return ''.join([random.choice(symbols) for i in range(length)])
 
-def set_flag(file_path, flag, value=None, formatted=None, *args, **kwargs):
+
+def set_flag(
+    file_path: str,
+    flag: str,
+    value: str = None,
+    formatted: str = None,
+    *args,
+    **kwargs
+):
     if value is None:
         random_string = generate_random_string(*args, **kwargs)
         if random_string is None:
@@ -46,22 +53,23 @@ def set_flag(file_path, flag, value=None, formatted=None, *args, **kwargs):
 
     return value
 
+
 def main():
     if "{{ cookiecutter.license }}" ==  "Not open source":
-        remove_files('LICENSE')
+        remove('LICENSE')
 
     if "{{ cookiecutter.create_gitlab_ci }}".lower() == "n":
-        remove_files('.gitlab-ci.yml')
+        remove('.gitlab-ci.yml')
 
     if "{{ cookiecutter.use_docker }}".lower() == "n":
-        remove_files('docker-compose.yml', '.dockerignore', 'Dockerfile', 'docker-entrypoint.sh')
+        remove('docker-compose.yml', '.dockerignore', 'Dockerfile', 'docker-entrypoint.sh')
 
     if "{{ cookiecutter.create_gitlab_ci }}".lower() != "with shell runner":
-        remove_files('docker-compose.ci.yml')
+        remove('docker-compose.ci.yml')
 
-    #
+    ##################
     # .env file
-    #
+    ##################
 
     # Set secret Key
     set_flag(
@@ -92,13 +100,13 @@ def main():
         length=32,
     )
 
-    #
+    ##################
     # settings.py file
-    #
+    ##################
 
     # Set development secret key at settings.py
     set_flag(
-        '{{ cookiecutter.project_slug }}/settings.py',
+        '{{ cookiecutter.project_slug }}/settings/common.py',
         'CC_SECRET_KEY_CC',
         length=50,
         punctuation=True,
@@ -126,8 +134,9 @@ def main():
     set_flag(
         '.gitlab-ci.yml',
         'CC_DB_CC',
-        length=32,
+        length=24,
     )
+
 
 if __name__ == "__main__":
     main()
