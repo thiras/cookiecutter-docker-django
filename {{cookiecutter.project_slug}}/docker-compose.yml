@@ -23,6 +23,7 @@ services:
       context: .
       args:
         EXTRA_PACKAGES: bash
+    env_file: .env
     command: migrate run_dev
     ports:
       - "8000:8000"
