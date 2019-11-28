@@ -74,6 +74,39 @@ def main():
     else:
         remove("Pipfile", "pyproject.toml")
 
+    if "{{ cookiecutter.license }}" == "MIT":
+        set_flag(
+            "setup.py",
+            "CC_LICENSE_CC",
+            "License :: OSI Approved :: MIT License"
+        )
+    elif "{{ cookiecutter.license }}" == "BSD 3-clause":
+        set_flag(
+            "setup.py",
+            "CC_LICENSE_CC",
+            "License :: OSI Approved :: BSD License"
+        )
+    elif "{{ cookiecutter.license }}" == "GPLv3":
+        set_flag(
+            "setup.py",
+            "CC_LICENSE_CC",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+        )
+    elif "{{ cookiecutter.license }}" == "Apache Software License 2.0":
+        set_flag(
+            "setup.py",
+            "CC_LICENSE_CC",
+            "License :: OSI Approved :: Apache Software License"
+        )
+    else:
+        with open("setup.py", "r+") as f:
+            d = f.readlines()
+            f.seek(0)
+            for line in d:
+                if "CC_LICENSE_CC" in line:
+                    f.write(line)
+            f.truncate()
+
     ##################
     # .env file
     ##################
